@@ -15,7 +15,7 @@
         android:background="@color/colorCell"
         android:padding="5dp">
 
-        <!-- Text Notice Name -->
+        <!-- title -->
         <TextView
             android:id="@+id/txt_card_title"
             android:layout_width="match_parent"
@@ -23,14 +23,14 @@
             android:textStyle="bold"
             android:padding="3dp"/>
 
-        <!-- Text Notice Description -->
+        <!-- value -->
         <TextView
             android:id="@+id/txt_card_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="3dp" />
 
-        <!-- Text Notice FilePath -->
+        <!-- rank -->
         <TextView
             android:id="@+id/txt_card_rank"
             android:layout_width="match_parent"
