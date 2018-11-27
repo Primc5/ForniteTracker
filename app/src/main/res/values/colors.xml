@@ -6,5 +6,7 @@
     <color name="colorBack">#99C81A</color>
     <color name="colorCell">#595412</color>
     <color name="colorButon">#F09007</color>
+    <color name="colorLetters">#21BC3F</color>
+
 
 </resources>
