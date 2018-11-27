@@ -1,36 +1,53 @@
 package com.u_tad.fornitetracker;
 
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-public class ViewModelForniteUser extends  RecyclerView.ViewHolder {
-    private TextView txt_title;
-    private TextView txt_value;
-    private TextView txt_rank;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-    public ViewModelForniteUser(@NonNull View itemView) {
-        super(itemView);
-        txt_title = itemView.findViewById(R.id.txt_card_title);
-        txt_value = itemView.findViewById(R.id.txt_card_value);
-        txt_rank = itemView.findViewById(R.id.txt_card_rank);
+public class ViewModelForniteUser extends ViewModel {
 
+    private RepositorieForniteUser repositorieForniteUser = RepositorieForniteUser.getInstance();
+    public MutableLiveData<ArrayList<ForniteUser>> liveData = new MutableLiveData<>();
+
+    public void getData(String nick){
+
+        repositorieForniteUser
+                .getUsers(nick)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<ArrayList<ForniteUser>>() {
+
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+                    //En este metodo me llegan los cambios.
+                    @Override
+                    public void onNext(ArrayList<ForniteUser> changes) {
+                        liveData.postValue(changes);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("FalloServicio","err: "+e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
-    public void setTitle(String txt_title){
-        this.txt_title.setText(txt_title);
-    }
 
-    public void setValue(String txt_value){
-        this.txt_value.setText(txt_value);
-    }
-
-    public void setRank(String txt_rank){
-        this.txt_rank.setText(txt_rank);
-    }
 }

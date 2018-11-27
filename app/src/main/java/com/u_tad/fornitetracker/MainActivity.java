@@ -1,9 +1,12 @@
 package com.u_tad.fornitetracker;
 
+
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
@@ -27,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         setViewStuffs();
 
-        loadView(arrayList);
 
         search();
 
@@ -57,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getData(String userNickName){
-
+        ViewModelForniteUser viewModelForniteUser = ViewModelProviders.of(this).get(ViewModelForniteUser.class);
+        viewModelForniteUser.liveData.observe(this, changes -> {
+            if (changes != null) {
+                Log.d("ServicioGithub ", "Cambios " + changes.toString());
+                loadView(changes);
+            }
+        });
+        viewModelForniteUser.getData(userNickName);
     }
 }
