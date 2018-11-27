@@ -8,45 +8,43 @@ import android.util.Log;
 import java.util.ArrayList;
 
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class ViewModelForniteUser extends ViewModel {
 
     private RepositorieForniteUser repositorieForniteUser = RepositorieForniteUser.getInstance();
-    public MutableLiveData<ArrayList<ForniteUser>> liveData = new MutableLiveData<>();
+    public MutableLiveData <ForniteUser.Stats.EachStat.Stat> liveData = new MutableLiveData<>();
 
-    public void getData(String nick){
+    private ArrayList<ForniteUser.Stats.EachStat.Stat> arr_parameters = new ArrayList<>();
+    private MutableLiveData <ArrayList<ForniteUser.Stats.EachStat.Stat>> dataUserMutableLiveData = new MutableLiveData<>();
 
-        repositorieForniteUser.getUsers(nick)
+
+    private MutableLiveData<ForniteUser> fortniteUserMutableLiveData = new MutableLiveData<>();
+
+    public void getData(String nick, String plataform){
+
+        repositorieForniteUser.getUsers(nick, plataform)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<ArrayList<ForniteUser>>() {
+                .subscribe(response ->  {
+                            arr_parameters.add(response.getStats().getP10().getWinRatio());
+                            arr_parameters.add(response.getStats().getP10().getKd());
+                            arr_parameters.add(response.getStats().getP10().getKills());
+                            arr_parameters.add(response.getStats().getP10().getMatches());
+
+                            dataUserMutableLiveData.postValue(arr_parameters);
+                            //dataUserMutableLiveData.postValue(arr_parameters);
+                            Log.d("Service response", "todo correcto aqui");
+                            Log.d("test", response.getStats().getP10().getWinRatio().toString());
+                        },
+                        error -> Log.d("SERVICE RESPONSE", error.getLocalizedMessage()));
+
+    }
 
 
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(ArrayList<ForniteUser> changes) {
-                        liveData.postValue(changes);
-                        Log.d("Recibiendo", "...");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("FalloServicio","err: "+e.getLocalizedMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+    public MutableLiveData<ArrayList<ForniteUser.Stats.EachStat.Stat>> getDataMutableLiveData() {
+        return dataUserMutableLiveData;
     }
 
 

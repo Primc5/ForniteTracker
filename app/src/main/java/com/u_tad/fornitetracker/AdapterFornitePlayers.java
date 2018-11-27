@@ -4,6 +4,7 @@ package com.u_tad.fornitetracker;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,13 @@ import java.util.Locale;
 
 public class AdapterFornitePlayers extends RecyclerView.Adapter<ViewHolderForniteUser> {
 
-    private ArrayList<ForniteUser> modules;
+    private ArrayList<ForniteUser.Stats.EachStat.Stat> arrayList;
 
 
-    public AdapterFornitePlayers(ArrayList<ForniteUser> modules){
-        this.modules = modules;
+    public AdapterFornitePlayers(ArrayList<ForniteUser.Stats.EachStat.Stat> arrayList){
+        this.arrayList = arrayList;
     }
+
 
 
     @Override
@@ -31,20 +33,19 @@ public class AdapterFornitePlayers extends RecyclerView.Adapter<ViewHolderFornit
 
     @Override
     public void onBindViewHolder(ViewHolderForniteUser viewHolderForniteUser, int i) {
-        final ForniteUser user = modules.get(i);
-        setData(viewHolderForniteUser, user);
+        ForniteUser.Stats.EachStat.Stat item = arrayList.get(i);
+        Log.d("titulo", arrayList.get(i).getValue());
+        viewHolderForniteUser.setTitle(item.getLabel());
+        viewHolderForniteUser.setValue(item.getValue());
+        viewHolderForniteUser.setRank(item.getRank().toString());
     }
 
 
-    public void setData(ViewHolderForniteUser viewHolderForniteUser, ForniteUser user){
-        viewHolderForniteUser.setTitle(user.getStats().getPlayer().getTitle());
-        viewHolderForniteUser.setValue(user.getStats().getPlayer().getValue());
-        viewHolderForniteUser.setRank(user.getStats().getPlayer().getRank());
-    }
+
 
     @Override
     public int getItemCount() {
-        return 2;
+        return arrayList.size();
     }
 
 

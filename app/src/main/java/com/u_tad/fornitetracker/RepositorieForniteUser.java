@@ -2,8 +2,6 @@ package com.u_tad.fornitetracker;
 
 import io.reactivex.Observable;
 
-import java.util.ArrayList;
-
 public class RepositorieForniteUser {
 
     private static volatile RepositorieForniteUser ourInstance = new RepositorieForniteUser();
@@ -26,8 +24,8 @@ public class RepositorieForniteUser {
     private ServiceForniteUser forniteApi = ServiceForniteUser.Factory();
 
 
-    public Observable<ArrayList<ForniteUser>> getUsers(String nick){
-        return forniteApi.loadUser(nick);
+    public Observable <ForniteUser> getUsers(String nick, String plataform){
+        return forniteApi.loadUser(nick, plataform);
     }
 
 }
