@@ -2,6 +2,8 @@ package com.u_tad.fornitetracker;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AdapterFornitePlayers adapter;
     private RecyclerView recyclerView;
-    private Button search;
+    private FloatingActionButton search;
     private EditText userName;
     private ArrayList<ForniteUser> arrayList;
 
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setViewStuffs(){
         recyclerView = findViewById(R.id.recycler_view_notice_list);
-        search = findViewById(R.id.button_search);
+        search = findViewById(R.id.search);
         userName = findViewById(R.id.textView_user);
     }
 
@@ -52,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void search() {
         search.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 getData(userName.getText().toString());
             }
         });

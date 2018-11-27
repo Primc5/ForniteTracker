@@ -1,7 +1,6 @@
 package com.u_tad.fornitetracker;
 
-import android.annotation.SuppressLint;
-import android.database.Observable;
+import io.reactivex.Observable;
 
 import java.util.ArrayList;
 
@@ -28,7 +27,6 @@ public class RepositorieForniteUser {
 
 
     public Observable<ArrayList<ForniteUser>> getUsers(String nick){
-
         return forniteApi.loadUser(nick);
     }
 

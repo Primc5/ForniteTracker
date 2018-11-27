@@ -20,8 +20,7 @@ public class ViewModelForniteUser extends ViewModel {
 
     public void getData(String nick){
 
-        repositorieForniteUser
-                .getUsers(nick)
+        repositorieForniteUser.getUsers(nick)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<ArrayList<ForniteUser>>() {
@@ -31,10 +30,11 @@ public class ViewModelForniteUser extends ViewModel {
                     public void onSubscribe(Disposable d) {
 
                     }
-                    //En este metodo me llegan los cambios.
+
                     @Override
                     public void onNext(ArrayList<ForniteUser> changes) {
                         liveData.postValue(changes);
+                        Log.d("Recibiendo", "...");
                     }
 
                     @Override
